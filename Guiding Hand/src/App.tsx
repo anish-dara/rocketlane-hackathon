@@ -4,10 +4,12 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import AppLayout from "@/components/AppLayout";
+import Landing from "./pages/Landing";
 import Projects from "./pages/Projects";
 import Stakeholders from "./pages/Stakeholders";
 import ConflictMap from "./pages/ConflictMap";
 import Packet from "./pages/Packet";
+import Scheduling from "./pages/Scheduling";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -19,10 +21,11 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Landing />} />
           <Route element={<AppLayout />}>
-            <Route path="/" element={<Navigate to="/projects" replace />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/stakeholders" element={<Stakeholders />} />
+            <Route path="/scheduling" element={<Scheduling />} />
             <Route path="/conflict-map" element={<ConflictMap />} />
             <Route path="/packet" element={<Packet />} />
           </Route>

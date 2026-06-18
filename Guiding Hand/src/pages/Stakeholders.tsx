@@ -3,6 +3,7 @@ import { CheckCircle2, FileText, PhoneCall, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { PageHeader } from "@/components/PageHeader";
 import { cn } from "@/lib/utils";
 import { stakeholders, transcripts, type Stakeholder } from "@/data/mock";
 
@@ -10,15 +11,23 @@ export default function Stakeholders() {
   const [active, setActive] = useState<Stakeholder | null>(null);
   const [mode, setMode] = useState<"live" | "completed">("completed");
 
+  const completed = stakeholders.filter((s) => s.status === "Completed").length;
+
   return (
-    <div className="max-w-5xl mx-auto px-4 md:px-8 py-8 md:py-12 space-y-8">
-      <header className="space-y-1">
-        <div className="text-xs uppercase tracking-wider text-primary font-semibold">Discovery</div>
-        <h1 className="text-3xl font-semibold tracking-tight">Stakeholders & Calls</h1>
-        <p className="text-muted-foreground text-sm">
-          PreKick reaches out to each named stakeholder and turns the conversation into structured paperwork.
-        </p>
-      </header>
+    <div className="max-w-5xl mx-auto px-4 md:px-8 py-10 md:py-16 space-y-10">
+      <PageHeader
+        eyebrow="Discovery · 02"
+        title="Stakeholders"
+        italic="& calls."
+        description="PreKick reaches out to each named stakeholder and turns the conversation into structured paperwork."
+      />
+
+      <div className="grid grid-cols-3 gap-3">
+        <StatCard label="Stakeholders" value={stakeholders.length} />
+        <StatCard label="Calls completed" value={completed} accent />
+        <StatCard label="Scheduled" value={stakeholders.length - completed} />
+      </div>
+
 
       <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
         <div className="hidden md:grid grid-cols-[1.5fr_1fr_auto_auto] gap-4 px-6 py-3 border-b border-border bg-muted/40 text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">
@@ -94,6 +103,15 @@ export default function Stakeholders() {
         mode={mode}
         onClose={() => setActive(null)}
       />
+    </div>
+  );
+}
+
+function StatCard({ label, value, accent }: { label: string; value: number; accent?: boolean }) {
+  return (
+    <div className="rounded-xl border border-border bg-card p-4 shadow-card">
+      <div className={cn("font-display text-3xl tracking-tight", accent && "text-primary")}>{value}</div>
+      <div className="eyebrow text-muted-foreground mt-1">{label}</div>
     </div>
   );
 }
